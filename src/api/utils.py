@@ -21,6 +21,7 @@ class Utils:
         """Make a GET request and return the response."""
         try:
             response = requests.get(url, headers=headers)
+            response.raise_for_status()
             return response
         except requests.RequestException as e:
             raise RuntimeError(f'GET request failed: {e}')
@@ -30,12 +31,7 @@ class Utils:
         """Make a POST request and return the response."""
         try:
             response = requests.post(url, data=data, headers=headers)
+            response.raise_for_status()
             return response
         except requests.RequestException as e:
             raise RuntimeError(f'POST request failed: {e}')
-
-    @staticmethod
-    def handle_error(response, message):
-        """Handle API errors and print detailed information."""
-        error_details = response.text
-        raise RuntimeError(f'{message}\nHTTP Status: {response.status_code}\nDetails: {error_details}')

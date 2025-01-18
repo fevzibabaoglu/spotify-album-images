@@ -22,10 +22,6 @@ class SpotifyAPI:
                 'grant_type': 'client_credentials'
             },
         )
-
-        if response.status_code != 200:
-            Utils.handle_error(response, 'Failed to authenticate.')
-
         data = response.json()
         self.access_token = data['access_token']
 
@@ -33,10 +29,6 @@ class SpotifyAPI:
         """Make an API request to the Spotify Web API."""
         headers = {'Authorization': f'Bearer {self.access_token}'}
         response = Utils.get(endpoint, headers=headers)
-
-        if response.status_code != 200:
-            Utils.handle_error(response, 'API request failed.')
-
         return response.json()
     
     def __create_basic_auth_header(self):
