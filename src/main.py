@@ -11,6 +11,7 @@ MAX_WORKERS_DEFAULT = 10
 # Constants
 OUTPUT_DIRNAME = 'output'
 ALBUM_IMAGE_SHAPE = (256, 256)
+NUM_CLUSTERS = 5
 CLUSTER_IMAGE_SHAPE = (640, 640)
 CLUSTER_IMAGE_FILENAME = 'clustered_image.jpg'
 
@@ -34,9 +35,8 @@ def main(playlist_id, max_workers, save_images):
     images = track_image.handle_images(playlist, output_shape=ALBUM_IMAGE_SHAPE)
 
     # Initialize and apply clustering
-    n_clusters = 5  # Adjust as needed
     clustering = Clustering(
-        n_clusters=n_clusters,
+        n_clusters=NUM_CLUSTERS,
         init='k-means++',
         max_iter=300,
         tol=0,
