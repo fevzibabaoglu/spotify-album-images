@@ -64,7 +64,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Cluster album images from a Spotify playlist.")
     parser.add_argument('playlist_id', type=str, help="The ID of the Spotify playlist.")
     parser.add_argument('--max_workers', type=int, default=MAX_WORKERS_DEFAULT, help="The number of workers for parallel processing.")
-    parser.add_argument('--save_images', action='store_true', help="Whether to save images locally.")
+    parser.add_argument('--save_images', action='store_true', help="Save images locally.")
     args = parser.parse_args()
 
     # Run main with parsed arguments
