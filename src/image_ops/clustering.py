@@ -14,7 +14,7 @@ class Clustering:
         max_iter: int = 300,
         tol: float = 0.0001,
         random_state: Optional[int] = None,
-        algorithm: Literal['lloyd', 'elkan', 'auto', 'full'] = "lloyd",
+        algorithm: Literal['lloyd', 'elkan'] = "lloyd",
     ):
         """Initialize the clustering object with K-means configuration."""
         self.kmeans = KMeans(
