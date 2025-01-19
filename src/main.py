@@ -7,7 +7,6 @@ from image_ops import ImageHandler, TrackImage, Clustering
 
 # Default args
 MAX_WORKERS_DEFAULT = 10
-SAVE_ALBUM_IMAGES_DEFAULT = False
 
 # Constants
 OUTPUT_DIRNAME = 'output'
@@ -16,7 +15,7 @@ CLUSTER_IMAGE_SHAPE = (640, 640)
 CLUSTER_IMAGE_FILENAME = 'clustered_image.jpg'
 
 
-def main(playlist_id, max_workers, save_album_images):
+def main(playlist_id, max_workers, save_images):
     # Setup output directory
     output_dir = os.path.join(os.getcwd(), OUTPUT_DIRNAME)
 
@@ -26,7 +25,7 @@ def main(playlist_id, max_workers, save_album_images):
 
     # Initialize ImageHandler and TrackImage
     image_handler = ImageHandler(output_dir=output_dir, max_workers=max_workers)
-    track_image = TrackImage(image_handler=image_handler, save_album_images=save_album_images)
+    track_image = TrackImage(image_handler=image_handler, save_images=save_images)
 
     # Get playlist data
     playlist = Playlist(spotifyAPI, playlist_id)
@@ -50,7 +49,7 @@ def main(playlist_id, max_workers, save_album_images):
     cluster_image = clustering.get_cluster_image(output_shape=CLUSTER_IMAGE_SHAPE)
 
     # Save cluster image in RGB space
-    if track_image.save_album_images:
+    if track_image.save_images:
         playlist_folder = image_handler.create_folder(playlist.playlist_id)
         filename = image_handler.sanitize_filename(CLUSTER_IMAGE_FILENAME)
         save_path = os.path.join(playlist_folder, filename)
@@ -65,8 +64,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description="Cluster album images from a Spotify playlist.")
     parser.add_argument('playlist_id', type=str, help="The ID of the Spotify playlist.")
     parser.add_argument('--max_workers', type=int, default=MAX_WORKERS_DEFAULT, help="The number of workers for parallel processing.")
-    parser.add_argument('--save_album_images', type=bool, default=SAVE_ALBUM_IMAGES_DEFAULT, help="Whether to save images locally.")
+    parser.add_argument('--save_images', action='store_true', help="Whether to save images locally.")
     args = parser.parse_args()
 
     # Run main with parsed arguments
-    main(playlist_id=args.playlist_id, max_workers=args.max_workers, save_album_images=args.save_album_images)
+    main(playlist_id=args.playlist_id, max_workers=args.max_workers, save_images=args.save_images)

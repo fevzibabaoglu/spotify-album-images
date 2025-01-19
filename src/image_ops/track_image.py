@@ -6,10 +6,10 @@ from .image_handler import ImageHandler
 
 
 class TrackImage:
-    def __init__(self, image_handler: ImageHandler, save_album_images: bool = True):
+    def __init__(self, image_handler: ImageHandler, save_images: bool = True):
         """Handles track-specific logic for image downloading and processing."""
         self.image_handler = image_handler
-        self.save_album_images = save_album_images
+        self.save_images = save_images
 
     def handle_image(self, playlist, track, track_index: int, output_shape=(32, 32), file_extension: str = "jpg") -> tuple:
         """Download, save, and process a single track image. Returns the 
@@ -18,7 +18,7 @@ class TrackImage:
         image = self.image_handler.download_image(track.album_image_url)
 
         save_data = None
-        if self.save_album_images:
+        if self.save_images:
             playlist_folder = self.image_handler.create_folder(playlist.playlist_id)
             filename = f"{track_index + 1:03d}. {track.name} [by {', '.join(track.artist_names)}].{file_extension}"
             filename = self.image_handler.sanitize_filename(filename)
