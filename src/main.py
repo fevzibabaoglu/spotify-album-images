@@ -11,7 +11,7 @@ MAX_WORKERS_DEFAULT = 10
 # Constants
 OUTPUT_DIRNAME = 'output'
 ALBUM_IMAGE_SHAPE = (256, 256)
-NUM_CLUSTERS = 5
+N_CLUSTER_RANGE = (3, 7)
 CLUSTER_IMAGE_SHAPE = (640, 640)
 CLUSTER_IMAGE_FILENAME = 'clustered_image.jpg'
 
@@ -35,15 +35,20 @@ def main(playlist_id, max_workers, save_images):
     images = track_image.handle_images(playlist, output_shape=ALBUM_IMAGE_SHAPE)
 
     # Initialize and apply clustering
-    clustering = Clustering(
-        n_clusters=NUM_CLUSTERS,
+    clustering = Clustering.get_optimal_kmeans(
+        images=images,
+        n_clusters_range=N_CLUSTER_RANGE,
         init='k-means++',
         max_iter=300,
         tol=0,
         random_state=None,
         algorithm='lloyd',
+        n_subsamples=5,
+        subset_size=10000,
+        alpha=0.5,
     )
-    clustering.fit(images)
+    image_data = clustering.preprocess_images(images)
+    clustering.fit(image_data)
 
     # Get cluster image in RGB space
     cluster_image = clustering.get_cluster_image(output_shape=CLUSTER_IMAGE_SHAPE)
