@@ -32,9 +32,9 @@ This project analyzes the **most significant colors** in the album covers of a S
 - **Optimal Cluster Detection:**
   - A custom metric balances the silhouette score and cluster count, averaged over subsamples.
   - This approach prioritizes larger cluster counts by incorporating a logarithmic scale, ensuring smaller increases in the custom metric as the number of clusters grows. The influence of cluster count is balanced using the **α** parameter, which adjusts the weight given to larger clusters relative to the silhouette score.
-  \[
+  ```math
   M = \text{avg\_silhouette\_score} \cdot \left(1 + \alpha \cdot \frac{\log(n_{\text{clusters}})}{\log(n_{\text{max\_clusters}})}\right)
-  \]
+  ```
 - **Why not K-Medoids?:**
   - **K-Medoids** offers more accurate cluster centers (actual data points), but its memory-intensive computations (lack of mini-batch support) made it infeasible for large datasets with the available resources.
   - **Suggested Improvement:** Implement a mini-batch version of K-Medoids for more precise clustering without memory limitations.
